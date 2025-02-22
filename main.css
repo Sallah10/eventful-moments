@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  font-family: "Poppins";
+  box-sizing: border-box;
+}
+
+@layer components {
+  /* mx-auto */
+  .section {
+    @apply text-black flex flex-col gap-6 px-10 py-6 md:gap-6 h-[100vh] lg:h-[100%];
+  }
+  /* 0px 3px 6px #00000029 shadow-2xl shadow-[#00000029]*/
+  .card {
+    @apply bg-[#FFFFFF] w-[300px] md:w-[600px] lg:max-w-[500px] shadow-2xl shadow-[#00000029] flex flex-col gap-4 py-4 px-6  rounded-2xl;
+  }
+  .form {
+    @apply flex flex-col gap-4;
+  }
+  .textH1 {
+    @apply font-bold text-[30px] md:text-[40px];
+  }
+  .textH2 {
+    @apply text-[20px];
+  }
+  .textH3 {
+    @apply text-[16px] md:text-[20px];
+  }
+  .textp {
+    @apply text-[16px] md:text-[18px];
+  }
+  .texterror {
+    @apply text-red-600 text-[16px] md:text-[18px];
+  }
+  .button {
+    @apply bg-[#5271FF] text-white rounded-2xl w-[235px] h-[64px] self-center flex items-center justify-center;
+  }
+}
