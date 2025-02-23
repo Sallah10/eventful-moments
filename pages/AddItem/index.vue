@@ -1,6 +1,14 @@
+<script>
+
+    const router = useRouter()
+
+    const addItem = () => {
+        router.push('/buckets')
+    }
+</script>
 <template>
     <section class="section  h-[100%]">
-         <form action="" class="form lg:w-[638px] lg:self-center ">
+         <form @submit.prevent="addItem" action="" class="form lg:w-[638px] lg:self-center ">
              <div class="gap-2 flex flex-col">
                  <h3 class="textH3">Date in the future</h3>
                  <input 
@@ -20,7 +28,7 @@
                  class="rounded-2xl w-full h-[459px] border-[#707070] border-2 px-6 py-4"
                  ></textarea>
              </div>
-             <NuxtLink to="/buckets" class="button">Save</NuxtLink>
+             <button type="submit" class="button">Save</button>
          </form>
     </section>
  </template>

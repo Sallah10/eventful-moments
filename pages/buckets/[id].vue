@@ -1,11 +1,15 @@
 <script setup>
-const {id} = useRoute().params
+    const {id} = useRoute().params
+    const deleteItem = async () => {
+        // const response = await.delete(`https://jsonplaceholder.typicode.com/posts/${id}`) 
+        console.log("deleted")
+    }
 </script>
 <template>    
     <section class="section  h-[100%]">
         <h2>
-        {{ id }}
-    </h2>
+            {{ id }}
+        </h2>
         <h1 class="text-2xl font-bold md:textH1"> Lorem ipsum began as scrambled, nonsensical Latin derived from Cicero’s 1scentury BC text De Finibus Bonorum et Malorum.</h1>
         <h3 class="textH3 text-[#5271FF]">20/05/2023</h3>
         <p class="textP">
@@ -13,8 +17,8 @@ const {id} = useRoute().params
         </p>
         <div class="flex gap-4 flex-col
         md:flex-row md:justify-between">
-            <RouterLink to="/editItem" class="button bg-[#06C3B4]">Edit</RouterLink>
-            <button class="button bg-[#C34F06]">Delete</button>
+            <NuxtLink to="/editItem" class="button bg-[#06C3B4]">Edit</NuxtLink>
+            <button @click="deleteItem" class="button bg-[#C34F06]">Delete</button>
             <!-- <button class="button bg-[#06C3B4]">Edit</button> -->
         </div>
     </section>
