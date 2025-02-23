@@ -1,27 +1,50 @@
 <script setup>
+//add spinner and use
 import { ref } from 'vue';
-// import { useRouter } from 'vue-router';
-
+import { useRouter } from 'vue-router';
     definePageMeta({
-        layout: "custom",
-    });
+            layout: "custom",
+        });
+        
+    const router = useRouter()
+    const {setAuth} = useAuth()
 
-    const email = ref('');
-    const password = ref('');
-    const errorMessage = ref('');
+    const formData = reactive({
+        email: '',
+        password: ''
+    })
 
-    const handleLogin = () => {
-      if (email.value && password.value) {
-        errorMessage.value = ''; // Clear any error message
-        emits('login');
-        // router.push('/buckets'); // Redirect to another page
-        console.log("Login successful");
-      } else {
-        errorMessage.value = 'Email and Password are required!';
-      }
+    const error = ref(null)
+    const loading = ref(false)
+    // const errorMessage = ref('');
+
+    const handleLogin = async () => {
+        try{
+            loading.value = true
+            error.value = null
+            
+            const response = await axios.post('https://api.example.com/auth/login', JSON.stringify(formData))
+            // const response = await fetch('https://api.example.com/auth/login', {
+            // method: 'POST',
+            // headers: {
+            //     'Content-Type': 'application/json'
+            // },
+            // body: JSON.stringify(formData)
+            // })
+            
+            if (!response.ok) {
+            throw new Error('Invalid credentials')
+            }
+            
+            const { user, token } = await response.json()
+            setAuth(user, token)
+            router.push('/buckets')
+        } catch (error) {
+            error.value = error.message || 'Login failed'
+        } finally {
+            loading.value = false
+        }
     };
-
-  
 </script>
 
 <template>
@@ -52,8 +75,16 @@ import { ref } from 'vue';
                 required
                 />
             </div>
-            <button type="submit" class="button lg:h-[54px]">Login</button>
-            <p v-if="errorMessage" class="texterror">{{ errorMessage }}</p>
+            <button type="submit" 
+            type="submit"
+            :disabled="loading"
+            class="button lg:h-[54px]">{{ loading ? 'Logging in...' : 'Login' }}</button>
+            <p v-if="error.value" class="texterror">{{ error.value}}</p>
         </form>
+        <div class="text-center textp">
+            <NuxtLink to="/register" class="text-[#06C3B4] hover:text-[#05a89c]">
+                Don't have an account? Sign up
+            </NuxtLink>
+        </div>
     </section>
 </template>

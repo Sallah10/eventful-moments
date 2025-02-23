@@ -36,7 +36,8 @@ const isActiveLink = (routePath) => {
                   'py-2',
                   'rounded-md',
                 ]"
-                @click="props.logout">Logout</button></li> 
+                >Logout</button></li> 
+                <!-- @click="props.logout" -->
         </ul>
     </nav>
 </template>

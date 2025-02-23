@@ -1,4 +1,5 @@
 <script setup>
+//add spinner and use
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -6,22 +7,38 @@ import { useRouter } from 'vue-router';
         layout: "custom",
     });
 
-    const name = ref('');
-    const email = ref('');
-    const password = ref('');
-    const errorMessage = ref('');
     const router = useRouter();
 
-const handleLogin = () => {
-  if (!name.value || !email.value || !password.value) {
-    errorMessage.value = 'All fields are required!';
-    return;
-  }
+    const formData = reactive({
+        name : (''),
+        email : (''),
+        password : ('')
+    })
 
-  errorMessage.value = ''; 
-  console.log("Registration done");
-  emits('login');
-  router.push('/buckets');
+    const error = ref(null)
+    const loading = ref(false)
+
+const handleSignUp = async () => {
+  try{
+    loading.value = true
+    error.value = null
+
+    const response = await axios.post('https://api.example.com/auth/register', JSON.stringify(formData))
+
+    if (!response.ok){
+        throw new Error('Wrong Credentials Provided(Registration Failed)')
+    }
+
+    const { user, token } = await response.json()
+    setAuth(user, token)
+    router.push('/')
+  }
+  catch (error){
+    error.value = error.message || 'Registration Failed'
+  }
+  finally {
+    loading.value = false
+  }
 };
 </script>
 
@@ -33,7 +50,7 @@ const handleLogin = () => {
         <h2 class="textH2 lg:w-[626px]">
             Hi, my name is Eventful Moments, I am a bucket… no, not the bucket of water but I store awesome moments you will like to have in coming years.
         </h2>
-        <form @submit.prevent="handleLogin" class="form">
+        <form @submit.prevent="handleSignUp" class="form">
             <div class="gap-2 flex flex-col ">
                 <h3 class="textH3">Fullname</h3>
                 <input 
@@ -56,8 +73,18 @@ const handleLogin = () => {
                 class="rounded-2xl w-full border-[#707070] border-2 px-6 py-4 md:w-[626px]"
                 />
             </div>
-            <button class="button lg:h-[54px]">Create</button>
-            <p v-if="errorMessage" class="texterror">{{ errorMessage }}</p>
+            <button 
+                type='submit' 
+                :disabled="loading"
+                class="button lg:h-[54px]">
+            {{ loading ? 'Creating account...' : 'Create' }}
+            </button>
+            <p v-if="error.value" class="texterror">{{ error.value }}</p>
         </form>
+        <div class="text-center textp">
+            <NuxtLink to="/" class="text-[#06C3B4] hover:text-[#05a89c]">
+                Already have an account? Sign in
+            </NuxtLink>
+        </div>
     </section>
 </template>
