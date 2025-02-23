@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+// import { useRouter } from 'vue-router';
 
     definePageMeta({
         layout: "custom",
@@ -14,7 +14,7 @@ import { useRouter } from 'vue-router';
       if (email.value && password.value) {
         errorMessage.value = ''; // Clear any error message
         emits('login');
-        router.push('/buckets'); // Redirect to another page
+        // router.push('/buckets'); // Redirect to another page
         console.log("Login successful");
       } else {
         errorMessage.value = 'Email and Password are required!';

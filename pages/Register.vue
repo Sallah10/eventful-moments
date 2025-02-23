@@ -2,6 +2,9 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
+    definePageMeta({
+        layout: "custom",
+    });
 
     const name = ref('');
     const email = ref('');
