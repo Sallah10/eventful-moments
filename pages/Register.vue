@@ -23,7 +23,11 @@ const handleSignUp = async () => {
     loading.value = true
     error.value = null
 
-    const response = await axios.post('https://api.example.com/auth/register', JSON.stringify(formData))
+    const response = await axios.post('https://eventful-moments-api.onrender.com/api/v1/users/signup',formData, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
 
     if (!response.ok){
         throw new Error('Wrong Credentials Provided(Registration Failed)')

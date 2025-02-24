@@ -23,15 +23,12 @@ import { useRouter } from 'vue-router';
             loading.value = true
             error.value = null
             
-            const response = await axios.post('https://api.example.com/auth/login', JSON.stringify(formData))
-            // const response = await fetch('https://api.example.com/auth/login', {
-            // method: 'POST',
-            // headers: {
-            //     'Content-Type': 'application/json'
-            // },
-            // body: JSON.stringify(formData)
-            // })
-            
+            const response = await axios.post('https://api.example.com/auth/login', formData, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+                });
+
             if (!response.ok) {
             throw new Error('Invalid credentials')
             }
@@ -76,7 +73,6 @@ import { useRouter } from 'vue-router';
                 />
             </div>
             <button type="submit" 
-            type="submit"
             :disabled="loading"
             class="button lg:h-[54px]">{{ loading ? 'Logging in...' : 'Login' }}</button>
             <p v-if="error.value" class="texterror">{{ error.value}}</p>

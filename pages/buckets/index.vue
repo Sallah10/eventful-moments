@@ -1,47 +1,38 @@
-<script setup>
+<script setup lang="ts">
+import axios from 'axios';
+import MomentList from '~/components/momentList.vue';
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 
+const { id } = useRoute().params;
+const error = ref('');
+const me = ref<{ name?: string } | null>(null); // Define `me` as a reactive object
+
+// Fetch user data
+const fetchMoment = async () => {
+  try {
+    const response = await axios.get('https://eventful-moments-api.onrender.com/api/v1/users/me');
+    me.value = response.data; // Assign the response data to `me`
+  } catch (error: any) {
+    error.value = error.message || 'Failed to load moment'
+    // error.value = err.message || 'Failed to load moment';
+  }
+};
+
+onMounted(fetchMoment);
 </script>
+
 <template>
-    <section class="section  h-[100%]">
-        <div class="flex justify-between gap-6 flex-col md:flex-row">
-            <div class="flex flex-col gap-4">
-                <h1 class=" text-2xl md:textH1 font-bold "> Welcome John Doe</h1>
-                <p class="textP">Here are items in your eventful moment bucket.</p>
-            </div>
-            <NuxtLink to="/addItem" class="button">Add Item</NuxtLink>
-        </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4">
-            <div class="card hover:bg-[#FFF5A7] self-center mx-auto">
-                <h2 class="text-lg md:textH2 font-bold">
-                    Lorem ipsum began as scrambled, nonsensical Latin derived from Cicero’s 1st-century BC text De Finibus Bonorum et Malorum.
-                </h2>
-                <p class="textP">
-                    Until recently, the prevailing view assumed lorem ipsum was born as a nonsense text. “It’s not Latin, though it looks like it, and it actually says nothing,” Before & After magazine answered a curious reader, “Its ‘words’ loosely approximate the frequency with which letters occur in English, which is why at a glance it looks pretty real. Until recently, the prevailing view assumed lorem ipsum was born as a nonsense text. “It’s not Latin, though it looks like it, and it actually says nothing,” Before & After magazine answered a curious reader, “Its ‘words’ loosely approximate the frequency with which letters occur in English, which is why at a glance it looks pretty real.
-                </p>
-                <div class="flex justify-between">
-                    <button class="text-[#5271FF] hover:text-[#008289]">View Details</button>
-                    <div class="md:flex gap-4">
-                        <h3 class="textH3 text-[#B2B2B2]">20/05/2025</h3>
-                        <h3 class="textH3">20/05/2025</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="card hover:bg-[#FFF5A7] self-center mx-auto">
-                <h2 class="text-lg md:textH2 font-bold">
-                    Lorem ipsum began as scrambled, nonsensical Latin derived from Cicero’s 1st-century BC text De Finibus Bonorum et Malorum.
-                </h2>
-                <p class="textP">
-                    Until recently, the prevailing view assumed lorem ipsum was born as a nonsense text. “It’s not Latin, though it looks like it, and it actually says nothing,” Before & After magazine answered a curious reader, “Its ‘words’ loosely approximate the frequency with which letters occur in English, which is why at a glance it looks pretty real. Until recently, the prevailing view assumed lorem ipsum was born as a nonsense text. “It’s not Latin, though it looks like it, and it actually says nothing,” Before & After magazine answered a curious reader, “Its ‘words’ loosely approximate the frequency with which letters occur in English, which is why at a glance it looks pretty real.
-                </p>
-                <div class="flex justify-between">
-                    <button class="text-[#5271FF] hover:text-[#008289]">View Details</button>
-                    <div class="md:flex gap-4">
-                        <h3 class="textH3 text-[#B2B2B2]">20/05/2025</h3>
-                        <h3 class="textH3">20/05/2025</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button class="button"> Load More</button>
-    </section>
+  <section class="section h-[100%]">
+    <div class="flex justify-between gap-6 flex-col md:flex-row">
+      <div v-if="me" class="flex flex-col gap-4">
+        <h1 class="text-2xl md:textH1 font-bold">Welcome {{ me.name }}</h1>
+        <h1 v-if="error">{{ error }}</h1>
+        <p class="textP">Here are items in your eventful moment bucket.</p>
+      </div>
+      <NuxtLink to="/addItem" class="button">Add Item</NuxtLink>
+    </div>
+    <MomentList />
+    <button class="button">Load More</button>
+  </section>
 </template>
