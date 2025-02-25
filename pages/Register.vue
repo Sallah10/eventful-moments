@@ -2,6 +2,10 @@
 //add spinner and use
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import {
+  VueSpinnerBars,
+  // ...
+} from 'vue3-spinners';
 
     definePageMeta({
         layout: "custom",
@@ -34,7 +38,7 @@ const handleSignUp = async () => {
     }
 
     const { user, token } = await response.json()
-    setAuth(user, token)
+    useAuth(user, token)
     router.push('/')
   }
   catch (error){
@@ -44,6 +48,7 @@ const handleSignUp = async () => {
     loading.value = false
   }
 };
+
 </script>
 
 <template>
@@ -83,6 +88,7 @@ const handleSignUp = async () => {
                 class="button lg:h-[54px]">
             {{ loading ? 'Creating account...' : 'Create' }}
             </button>
+            <VueSpinnerBars v-if="loading" color="#06C3B4"/>
             <p v-if="error.value" class="texterror">{{ error.value }}</p>
         </form>
         <div class="text-center textp">
