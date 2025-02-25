@@ -3,7 +3,8 @@ import axios from 'axios'
 
 const route = useRoute()
 const router = useRouter()
-const { id } = route.params
+// const { id } = route.params
+const id = ref('')
 const date = ref('')
 const title = ref('')
 const body = ref('')
@@ -13,8 +14,9 @@ const error = ref(null)
 const fetchMoment = async () => {
   try {
        // https://eventful-moments-api.onrender.com/api/v1/moment/61455755cd07331621f6bb0d
-    const response = await axios.get(`https://eventful-moments-api.onrender.com/api/v1/moment/61455755cd07331621f6bb0d/${id}`)
+    const response = await axios.get(`https://eventful-moments-api.onrender.com/api/v1/moment/${id}`)
     const moment = await response.json()
+    id.value = moment._id
     date.value = moment.date
     title.value = moment.title
     body.value = moment.body
@@ -25,7 +27,7 @@ const fetchMoment = async () => {
 
 const updateMoment = async () => {
   try {
-    await axios.put(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+    await axios.put(`https://eventful-moments-api.onrender.com/api/v1/moment/${id}`, {
       headers: {
         'Content-Type': 'application/json'
       },
@@ -37,7 +39,7 @@ const updateMoment = async () => {
       }
     })
     
-    router.push(`/moments/${id}`)
+    router.push(`/buckets/${id}`)
   } catch (err) {
     error.value = 'Failed to update moment'
   }
