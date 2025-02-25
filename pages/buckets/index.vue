@@ -30,7 +30,7 @@ onMounted(fetchMoment);
         <h1 v-if="error">{{ error }}</h1>
         <p class="textP">Here are items in your eventful moment bucket.</p>
       </div>
-      <NuxtLink to="/addItem" class="button">Add Item</NuxtLink>
+      <NuxtLink to="/buckets/addItem" class="button">Add Item</NuxtLink>
     </div>
     <MomentList />
     <button class="button">Load More</button>
