@@ -32,7 +32,7 @@
     @apply text-[16px] md:text-[18px];
   }
   .texterror {
-    @apply text-red-600 text-[16px] md:text-[18px];
+    @apply text-red-600 text-[16px] md:text-[18px] mb-2 self-center;
   }
   .button {
     @apply bg-[#5271FF] text-white rounded-2xl w-[235px] h-[64px] self-center flex items-center justify-center;

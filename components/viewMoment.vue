@@ -1,4 +1,3 @@
-<!-- components/ViewMoment.vue -->
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -17,21 +16,22 @@ const loading = ref(true)
 
 // Fetch moment details
 const fetchMoment = async () => {
+  if (!id) {
+    error.value = 'No moment ID provided'
+    loading.value = false
+    return;
+  }
+
   try {
     loading.value = true
-    // Use the ID from the route to fetch the specific moment
     const response = await axios.get(`https://eventful-moments-api.onrender.com/api/v1/moment/${id}`, {
       headers: {
-        Authorization: `Bearer ${token.value}` // Send token in the headers
+        Authorization: `Bearer ${token.value}` // Include token in headers
       }
     });
     
-    // Check if there's valid data
-    if (response.data) {
-      moment.value = response.data
-    } else {
-      error.value = 'Moment not found'
-    }
+    moment.value = response.data || null;
+    if (!moment.value) error.value = 'Moment not found';
   } catch (err) {
     console.error('Error fetching moment:', err)
     error.value = err.response?.data?.message || 'Failed to load moment'
@@ -45,8 +45,11 @@ const deleteItem = async () => {
   if (!confirm('Are you sure you want to delete this moment?')) return
 
   try {
-    // Use the ID from the route for deletion
-    await axios.delete(`https://eventful-moments-api.onrender.com/api/v1/moment/${id}`)
+    await axios.delete(`https://eventful-moments-api.onrender.com/api/v1/moment/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token.value}` // Fix: Include token in DELETE request
+      }
+    })
     router.push('/buckets') // Redirect after successful deletion
   } catch (err) {
     console.error('Error deleting moment:', err)
@@ -54,28 +57,23 @@ const deleteItem = async () => {
   }
 }
 
-// Call fetchMoment when component is mounted
-onMounted(() => {
-  if (id) {
-    fetchMoment()
-  } else {
-    error.value = 'No moment ID provided'
-    loading.value = false
-  }
-})
+onMounted(fetchMoment)
 </script>
 
 <template>
   <section class="section h-full p-4">
+    <!-- Loading Spinner -->
     <div v-if="loading" class="text-center py-8">
       <p>Loading moment...</p>
-      <VueSpinnerBars v-if="loading" color="#06C3B4"/>
+      <VueSpinnerBars v-if="loading" class="text-[#06C3B4] self-center"/>
     </div>
-    
+
+    <!-- Error Message -->
     <div v-else-if="error" class="text-red-500 text-center py-8">
       <p>{{ error }}</p>
     </div>
-    
+
+    <!-- Display Moment -->
     <div v-else-if="moment">
       <h1 class="text-2xl font-bold md:textH1">{{ moment.title }}</h1>
       <h3 class="textH3 text-[#5271FF]">
@@ -84,8 +82,10 @@ onMounted(() => {
       <p class="textP mt-4">
         {{ moment.body }}
       </p>
+
+      <!-- Action Buttons -->
       <div class="flex gap-4 flex-col md:flex-row md:justify-between mt-6">
-        <NuxtLink :to="`buckets/${id}/editItem`" class="button bg-[#06C3B4] px-4 py-2 text-white rounded text-center">
+        <NuxtLink :to="`/buckets/${id}/editItem`" class="button bg-[#06C3B4] px-4 py-2 text-white rounded text-center">
           Edit
         </NuxtLink>
         <button @click="deleteItem" class="button bg-[#C34F06] px-4 py-2 text-white rounded text-center">
@@ -93,7 +93,8 @@ onMounted(() => {
         </button>
       </div>
     </div>
-    
+
+    <!-- No Data -->
     <div v-else class="text-center py-8">
       <p>No moment found</p>
     </div>

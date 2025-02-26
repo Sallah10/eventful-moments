@@ -7,6 +7,7 @@ import { useAuth } from '@/composables/useAuth'
 const { token } = useAuth()
 
 const router = useRouter()
+
 const title = ref('')
 const body = ref('')
 const date = ref('')

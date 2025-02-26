@@ -40,7 +40,6 @@ const updateMoment = async () => {
         date: date.value,
         title: title.value,
         body: body.value,
-        userId: 1
       }
     })
     

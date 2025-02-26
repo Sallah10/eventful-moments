@@ -1,6 +1,7 @@
 <script setup>
 import { useRoute} from 'vue-router';
 import { defineProps } from 'vue';
+import { NuxtLink } from '#components';
 
 const props = defineProps(['isAuthenticated', 'logout']);
 
@@ -26,7 +27,8 @@ const isActiveLink = (routePath) => {
                   'py-2',
                   'rounded-md',
                 ]">Buckets</NuxtLink></li>
-            <li><button
+            <li><NuxtLink
+                to="/"
                 :class="[
                   isActiveLink('/')
                     ? 'bg-[#06C3B4]'
@@ -36,7 +38,7 @@ const isActiveLink = (routePath) => {
                   'py-2',
                   'rounded-md',
                 ]"
-                >Logout</button></li> 
+                >Logout</NuxtLink></li> 
                 <!-- @click="props.logout" -->
         </ul>
     </nav>
