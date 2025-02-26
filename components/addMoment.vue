@@ -56,7 +56,7 @@ const createMoment = async () => {
                  ></textarea>
              </div>
              <button type="submit" class="button">Save</button>
-             <NuxtLink to="/moments" class="button bg-gray-500 px-6 py-2 rounded text-white">
+             <NuxtLink to="/buckets" class="button bg-gray-500 px-6 py-2 rounded text-white">
               Cancel
             </NuxtLink>
          </form>

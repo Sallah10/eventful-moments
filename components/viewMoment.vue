@@ -2,6 +2,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { VueSpinnerBars } from 'vue3-spinners';
 import axios from 'axios'
 
 const route = useRoute()
@@ -61,6 +62,7 @@ onMounted(() => {
   <section class="section h-full p-4">
     <div v-if="loading" class="text-center py-8">
       <p>Loading moment...</p>
+      <VueSpinnerBars v-if="loading" color="#06C3B4"/>
     </div>
     
     <div v-else-if="error" class="text-red-500 text-center py-8">
@@ -76,7 +78,7 @@ onMounted(() => {
         {{ moment.body }}
       </p>
       <div class="flex gap-4 flex-col md:flex-row md:justify-between mt-6">
-        <NuxtLink :to="`/editItem/${id}`" class="button bg-[#06C3B4] px-4 py-2 text-white rounded text-center">
+        <NuxtLink :to="`buckets/${id}/editItem`" class="button bg-[#06C3B4] px-4 py-2 text-white rounded text-center">
           Edit
         </NuxtLink>
         <button @click="deleteItem" class="button bg-[#C34F06] px-4 py-2 text-white rounded text-center">
