@@ -25,7 +25,7 @@ const handleLogin = async () => {
         loading.value = true;
         error.value = null;
 
-        const response = await axios.post('https://api.example.com/auth/login', formData, {
+        const response = await axios.post('https://eventful-moments-api.onrender.com/api/v1/users/login', formData, {
             headers: {
                 'Content-Type': 'application/json'
             }

@@ -4,6 +4,9 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { VueSpinnerBars } from 'vue3-spinners';
 import axios from 'axios'
+import { useAuth } from '@/composables/useAuth';
+
+const { token } = useAuth(); 
 
 const route = useRoute()
 const router = useRouter()
@@ -17,7 +20,11 @@ const fetchMoment = async () => {
   try {
     loading.value = true
     // Use the ID from the route to fetch the specific moment
-    const response = await axios.get(`https://eventful-moments-api.onrender.com/api/v1/moment/${id}`)
+    const response = await axios.get(`https://eventful-moments-api.onrender.com/api/v1/moment/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token.value}` // Send token in the headers
+      }
+    });
     
     // Check if there's valid data
     if (response.data) {

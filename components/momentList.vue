@@ -1,14 +1,25 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { useAuth } from '@/composables/useAuth';
+
+const { token } = useAuth(); // Get the token from authentication
 
 const moments = ref([])
 const error = ref(null)
 
 const fetchMoments = async () => {
+  if (!token.value) {
+    error.value = 'No token found. Please log in.';
+    return;
+  }
   try {
-    const response = await axios.get('https://eventful-moments-api.onrender.com/api/v1/moment')
-    moments.value = response.data
+    const response = await axios.get('https://eventful-moments-api.onrender.com/api/v1/moment', {
+      headers: {
+        Authorization: `Bearer ${token.value}` // Send token in the headers
+      }
+    });
+    moments.value = response.data;
   } catch (err) {
     error.value = 'Failed to load moments'
   }
