@@ -3,6 +3,9 @@ import axios from 'axios'
 
 const route = useRoute()
 const router = useRouter()
+import { useAuth } from '@/composables/useAuth'
+
+const { token } = useAuth()
 // const { id } = route.params
 const id = ref('')
 const date = ref('')
@@ -30,6 +33,8 @@ const updateMoment = async () => {
     await axios.put(`https://eventful-moments-api.onrender.com/api/v1/moment/${id}`, {
       headers: {
         'Content-Type': 'application/json'
+        ,
+          'Authorization': `Bearer ${token.value}`
       },
       data: {
         date: date.value,

@@ -66,7 +66,7 @@ const handleLogin = async () => {
                 {{ loading ? 'Logging in...' : 'Login' }}
             </button>
             <p v-if="error" class="texterror">{{ error }}</p>
-            <VueSpinnerBars v-if="loading" color="#06C3B4" />
+            <VueSpinnerBars v-if="loading" class="text-[#06C3B4]" />
         </form>
         <div class="text-center textp">
             <NuxtLink to="/register" class="text-[#06C3B4] hover:text-[#05a89c] mb-2">
