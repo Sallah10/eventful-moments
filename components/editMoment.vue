@@ -66,7 +66,7 @@ onMounted(fetchMoment)
 
 <template>
   <section class="section h-[100%] p-4">
-    <div v-if="error" class="text-red-500 text-center mb-4">
+    <div v-if="error" class="texterror">
       <p>{{ error }}</p>
     </div>
 
