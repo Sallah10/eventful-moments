@@ -43,6 +43,7 @@ onMounted(fetchMoments)
         </NuxtLink>
         <div class="md:flex gap-4">
           <h3 class="textH3 text-[#B2B2B2]">{{ moment.createdAt }}</h3>
+          <!-- new Date(moment.createdAt).toLocaleDateString() -->
           <h3 class="textH3">{{ moment.updatedAt }}</h3>
         </div>
       </div>

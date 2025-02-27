@@ -69,7 +69,7 @@ onMounted(fetchMoment)
     </div>
 
     <!-- Error Message -->
-    <div v-else-if="error" class="text-red-500 text-center py-8">
+    <div v-else-if="error" class="texterror">
       <p>{{ error }}</p>
     </div>
 

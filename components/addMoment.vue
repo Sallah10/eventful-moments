@@ -21,7 +21,6 @@ const createMoment = async () => {
         date: date.value,
         title: title.value,
         body: body.value,
-// Assuming we have user authentication
       },
       {
         headers: { 
@@ -69,7 +68,7 @@ const createMoment = async () => {
         ></textarea>
       </div>
       <button type="submit" class="button">Save</button>
-      <NuxtLink to="/buckets" class="button bg-gray-500 px-6 py-2 rounded text-white">Cancel</NuxtLink>
+      <NuxtLink to="/buckets" class="button bg-red-600">Cancel</NuxtLink>
     </form>
   </section>
 </template>

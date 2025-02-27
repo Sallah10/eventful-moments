@@ -7,7 +7,7 @@ import { useAuth } from '@/composables/useAuth';
 
 const { token } = useAuth(); // Get the token from authentication
 
-const { id } = useRoute().params;
+// const { id } = useRoute().params;
 const error = ref('');
 const me = ref<{ name?: string } | null>(null); // Define `me` as a reactive object
 
@@ -39,7 +39,7 @@ onMounted(fetchMoment);
     <div class="flex justify-between gap-6 flex-col md:flex-row">
       <div v-if="me" class="flex flex-col gap-4">
         <h1 class="text-2xl md:textH1 font-bold">Welcome {{ me.name }}</h1>
-        <h1 v-if="error" class=" texterror text-red-500">{{ error }}</h1>
+        <h1 v-if="error" class=" texterror">{{ error }}</h1>
         <p class="textP">Here are items in your eventful moment bucket.</p>
       </div>
       <NuxtLink to="/buckets/addItem" class="button">Add Item</NuxtLink>
