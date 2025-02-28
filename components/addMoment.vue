@@ -1,25 +1,47 @@
-<!-- const createMoment = async () => {
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
+import { useAuth } from '@/composables/useAuth'
+
+const { token } = useAuth()
+const route = useRoute()
+const id = route.params.id 
+
+const router = useRouter()
+
+const title = ref('')
+const details = ref('')
+const futureDate = ref('')
+const error = ref(null)
+
+const createMoment = async () => {
   try {
     if (!token.value) {
       error.value = "Authentication failed. Please log in again.";
       return;
     }
 
-    if (!date.value || !title.value || !body.value) {
+    if (!futureDate.value || !title.value || !details.value) {
       error.value = "All fields are required!";
       return;
     }
 
-    const formattedDate = new Date(date.value).toISOString().split('T')[0];
-
+    if (!futureDate.value) {
+      error.value = "Date is required!";
+      return;
+    }
+    
+    const formattedDate = new Date(futureDate.value).toISOString().split('T')[0];
+    
     const requestData = {
-      date: formattedDate,
       title: title.value,
-      body: body.value
+      details: details.value,
+      futureDate: formattedDate 
     };
-
-    console.log("Sending Data:", requestData); // Check if data is correct before sending
-
+    
+    console.log("Sending Data:", requestData); // Log the ACTUAL data being sent
+    
     const response = await axios.post(
       'https://eventful-moments-api.onrender.com/api/v1/moment',
       requestData,
@@ -30,64 +52,26 @@
         }
       }
     );
-
-    console.log("API Response:", response.data); // Check response
-
-    router.push(`/buckets/${response.data._id || response.data.id}`);
-
-  } catch (err) {
-    console.error("Error creating moment:", err.response?.data || err.message);
-    error.value = err.response?.data?.message || "Failed to create moment";
-  }
-}; -->
-
-<script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import axios from 'axios'
-import { useAuth } from '@/composables/useAuth'
-
-const { token } = useAuth()
-
-const router = useRouter()
-
-const title = ref('')
-const body = ref('')
-const date = ref('')
-const error = ref(null)
-
-
-const createMoment = async () => {
-  const formattedDate = new Date(date.value).toISOString().split('T')[0];
-  try {
-    const response = await axios.post(
-      'https://eventful-moments-api.onrender.com/api/v1/moment',
-      {
-        date: formattedDate,
-        title: title.value,
-        body: body.value,
-      },
-      {
-        headers: { 
-          'Content-Type': 'application/json' ,
-          'Authorization': `Bearer ${token.value}` // Attach token in request
-        }
-      }
-    )
     
-    console.log("Sending Data:", {
-      date: date.value,
-      title: title.value,
-      body: body.value
-    });
-
-    const newMoment = response.data
-    router.push(`/buckets/${newMoment._id}`)
+    console.log("API Response:", response.data);
+    
+    router.push(`/buckets/${response.data._id || response.data.id}`);
   } catch (err) {
-    console.error('Error creating moment:', err)
-    error.value = 'Failed to create moment'
+    console.error("Error creating moment:", err);
+    // More detailed error information
+    if (err.response) {
+      console.error("Response data:", err.response.data);
+      console.error("Response status:", err.response.status);
+      error.value = err.response.data?.message || `Error ${err.response.status}: Failed to create moment`;
+    } else if (err.request) {
+      console.error("No response received");
+      error.value = "Server did not respond. Please try again later.";
+    } else {
+      console.error("Error message:", err.message);
+      error.value = err.message || "An unexpected error occurred";
+    }
   }
-}
+};
 </script>
 
 <template>
@@ -97,7 +81,7 @@ const createMoment = async () => {
         <h3 class="textH3">Date in the future</h3>
         <input 
           type="date" 
-          v-model="date" 
+          v-model="futureDate" 
           class="rounded-2xl w-full border-[#707070] border-2 px-6 py-4"
           required 
         />
@@ -114,7 +98,7 @@ const createMoment = async () => {
       <div class="gap-2 flex flex-col">
         <h3 class="textH3">Details</h3>
         <textarea 
-          v-model="body" 
+          v-model="details" 
           class="rounded-2xl w-full h-[459px] border-[#707070] border-2 px-6 py-4"
           required 
         ></textarea>

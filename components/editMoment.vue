@@ -26,10 +26,10 @@ const fetchMoment = async () => {
     const moment = response.data
 
     // ✅ Ensure correct date format for input[type="date"]
-    date.value = moment.date ? new Date(moment.date).toISOString().split('T')[0] : ''
+    date.value = moment.futureDate ? new Date(moment.futureDate).toISOString().split('T')[0] : ''
 
     title.value = moment.title
-    body.value = moment.body
+    body.value = moment.details
   } catch (err) {
     console.error('Error fetching moment:', err)
     error.value = 'Failed to load moment'
@@ -42,9 +42,9 @@ const updateMoment = async () => {
     await axios.put(
       `https://eventful-moments-api.onrender.com/api/v1/moment/${id}`,
       {
-        date: date.value,
+        date: futureDate.value,
         title: title.value,
-        body: body.value,
+        body: details.value,
       },
       {
         headers: {
