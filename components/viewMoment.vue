@@ -26,11 +26,11 @@ const fetchMoment = async () => {
     loading.value = true
     const response = await axios.get(`https://eventful-moments-api.onrender.com/api/v1/moment/${id}`, {
       headers: {
-        Authorization: `Bearer ${token.value}` // Include token in headers
+        Authorization: `Bearer ${token.value}` 
       }
     });
     
-    moment.value = response.data || null;
+    moment.value = response.data.data || null;
     if (!moment.value) error.value = 'Moment not found';
   } catch (err) {
     console.error('Error fetching moment:', err)
@@ -61,11 +61,11 @@ onMounted(fetchMoment)
 </script>
 
 <template>
-  <section class="section h-full p-4">
+  <section class="section h-[100vh] p-4">
     <!-- Loading Spinner -->
     <div v-if="loading" class="text-center py-8">
       <p>Loading moment...</p>
-      <VueSpinnerBars v-if="loading" class="text-[#06C3B4] self-center"/>
+      <VueSpinnerBars v-if="loading" class="text-[#06C3B4] flex self-center"/>
     </div>
 
     <!-- Error Message -->
@@ -80,7 +80,7 @@ onMounted(fetchMoment)
         {{ moment.createdAt ? new Date(moment.createdAt).toLocaleDateString() : 'Date not available' }}
       </h3>
       <p class="textP mt-4">
-        {{ moment.body }}
+        {{ moment.details }}
       </p>
 
       <!-- Action Buttons -->

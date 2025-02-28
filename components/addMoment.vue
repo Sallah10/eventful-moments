@@ -54,9 +54,17 @@ const createMoment = async () => {
     );
     
     console.log("API Response:", response.data);
+    const momentId = response.data.data?._id;
     
-    router.push(`/buckets/${response.data._id || response.data.id}`);
-  } catch (err) {
+    
+    if (momentId) {
+      router.push(`/buckets/${momentId}`);
+    } else {
+      console.error("Could not find moment ID in response");
+      error.value = "Created moment but couldn't navigate to details view";
+      router.push('/buckets');
+    }
+  }catch (err) {
     console.error("Error creating moment:", err);
     // More detailed error information
     if (err.response) {

@@ -19,7 +19,7 @@ const fetchMoments = async () => {
         Authorization: `Bearer ${token.value}` // Send token in the headers
       }
     });
-    moments.value = response.data;
+    moments.value = response.data.data;
   } catch (err) {
     error.value = 'Failed to load moments'
   }
@@ -35,10 +35,10 @@ onMounted(fetchMoments)
         {{ moment.title }}
       </h2>
       <p class="textP">
-        {{ moment.body }}
+        {{ moment.details }}
       </p>
       <div class="flex justify-between">
-        <NuxtLink :to="'/buckets/' + moment.id" class="text-[#5271FF] hover:text-[#008289]">
+        <NuxtLink :to="'/buckets/' + moment._id" class="text-[#5271FF] hover:text-[#008289]">
           View Details
         </NuxtLink>
         <div class="md:flex gap-4">
