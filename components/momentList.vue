@@ -3,9 +3,20 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useAuth } from '@/composables/useAuth';
 
-const { token } = useAuth(); // Get the token from authentication
+const { token } = useAuth();
+
+const props = defineProps({
+  limit: {
+    type: Number,
+    default: 5
+  }
+});
+
+// Define an event to notify parent when user wants more items
+const emit = defineEmits(['loadMore']);
 
 const moments = ref([])
+const LoadedMoments = ref([])
 const error = ref(null)
 
 const fetchMoments = async () => {
@@ -20,15 +31,34 @@ const fetchMoments = async () => {
       }
     });
     moments.value = response.data.data;
+
+    LoadedMoments.value = moments.value.slice(0, props.limit);
   } catch (err) {
     error.value = 'Failed to load moments'
   }
 }
 
+// Method to handle loading more when called from parent
+const loadMore = () => {
+  if (moments.value.length < allMoments.value.length) {
+    const newLimit = moments.value.length + 5;
+    moments.value = allMoments.value.slice(0, newLimit);
+    
+    // If we've shown all moments now, notify parent
+    if (LoadedMoments.value.length >= moments.value.length) {
+      emit('loadMore', false); // No more to load
+    }
+  }
+};
+
+// Expose loadMore method to parent component
+defineExpose({ loadMore });
+
 onMounted(fetchMoments)
 </script>
 
 <template>
+  <div v-if="LoadedMoments.length">
     <div v-for="moment in moments" :key="moment._id" class="card hover:bg-[#FFF5A7] self-center mx-auto">
       <h2 class="text-lg md:textH2 font-bold">
         {{ moment.title }}
@@ -47,4 +77,8 @@ onMounted(fetchMoments)
         </div>
       </div>
     </div>
+  </div>
+  <div v-else class="text-center py-8">
+      No moments found.
+  </div>
 </template>

@@ -11,7 +11,20 @@ const { token } = useAuth(); // Get the token from authentication
 const error = ref('');
 const me = ref<{ fullname?: string } | null>(null); // Define `me` as a reactive object
 
-// Fetch user data with Authorization
+const momentListRef = ref(null);
+const displayLimit = ref(5);
+const hasMore = ref(true);
+
+const loadMoreItems = () => {
+  if (momentListRef.value) {
+    momentListRef.value.loadMore();
+  }
+};
+
+const handleLoadMoreStatus = (hasMoreItems: boolean) => {
+  hasMore.value = hasMoreItems;
+};
+
 const fetchMoment = async () => {
   if (!token.value) {
     error.value = 'No token found. Please log in.';
@@ -21,11 +34,11 @@ const fetchMoment = async () => {
   try {
     const response = await axios.get('https://eventful-moments-api.onrender.com/api/v1/users/me', {
       headers: {
-        Authorization: `Bearer ${token.value}` // Send token in the headers
+        Authorization: `Bearer ${token.value}` 
       }
     });
 
-    me.value = response.data; // Assign response data to `me`
+    me.value = response.data; 
   } catch (err: any) {
     error.value = err.response?.data?.message || 'Failed to load moment';
   }
@@ -45,8 +58,17 @@ onMounted(fetchMoment);
       <NuxtLink to="/buckets/addItem" class="button">Add Item</NuxtLink>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4">  
-      <MomentList />
+      <MomentList 
+        ref="momentListRef"
+        :limit="displayLimit"
+        @load-more="handleLoadMoreStatus"
+      />
     </div>
-    <button class="button">Load More</button>
+    <button 
+      class="button"
+      v-if="hasMore" 
+      @click="loadMoreItems" 
+      >Load More
+    </button>
   </section>
 </template>
