@@ -44,7 +44,9 @@ onMounted(fetchMoment);
       </div>
       <NuxtLink to="/buckets/addItem" class="button">Add Item</NuxtLink>
     </div>
-    <MomentList />
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4">  
+      <MomentList />
+    </div>
     <button class="button">Load More</button>
   </section>
 </template>

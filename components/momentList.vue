@@ -29,8 +29,7 @@ onMounted(fetchMoments)
 </script>
 
 <template>
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4">
-    <div v-for="moment in moments" :key="moment.id" class="card hover:bg-[#FFF5A7] self-center mx-auto">
+    <div v-for="moment in moments" :key="moment._id" class="card hover:bg-[#FFF5A7] self-center mx-auto">
       <h2 class="text-lg md:textH2 font-bold">
         {{ moment.title }}
       </h2>
@@ -48,5 +47,4 @@ onMounted(fetchMoments)
         </div>
       </div>
     </div>
-  </div>
 </template>
