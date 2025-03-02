@@ -42,7 +42,7 @@ const fetchMoments = async () => {
 const loadMore = () => {
   if (moments.value.length < allMoments.value.length) {
     const newLimit = moments.value.length + 5;
-    moments.value = allMoments.value.slice(0, newLimit);
+    moments.value = moments.value.slice(0, newLimit);
     
     // If we've shown all moments now, notify parent
     if (LoadedMoments.value.length >= moments.value.length) {
