@@ -9,9 +9,9 @@ const router = useRouter()
 const { token } = useAuth()
 const id = route.params.id // Get moment ID from route
 
-const date = ref('')
+const futureDate = ref('')
 const title = ref('')
-const body = ref('')
+const details = ref('')
 const error = ref(null)
 
 // Fetch existing moment data
@@ -42,9 +42,9 @@ const updateMoment = async () => {
     await axios.put(
       `https://eventful-moments-api.onrender.com/api/v1/moment/${id}`,
       {
-        date: futureDate.value,
+        futureDate: futureDate.value,
         title: title.value,
-        body: details.value,
+        details: details.value,
       },
       {
         headers: {
@@ -76,7 +76,7 @@ onMounted(fetchMoment)
         <h3 class="textH3">Date in the future</h3>
         <input 
           type="date"
-          v-model="date"
+          v-model="FutureDate"
           class="rounded-2xl w-full border-[#707070] border-2 px-6 py-4"
           required
         />
@@ -98,7 +98,7 @@ onMounted(fetchMoment)
         <h3 class="textH3">Details</h3>
         <textarea 
           class="rounded-2xl w-full h-[459px] border-[#707070] border-2 px-6 py-4"
-          v-model="body"
+          v-model="details"
           required
         ></textarea>
       </div>
