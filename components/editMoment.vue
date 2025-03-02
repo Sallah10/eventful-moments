@@ -16,6 +16,11 @@ const error = ref(null)
 
 // Fetch existing moment data
 const fetchMoment = async () => {
+  if (!token.value) {
+    error.value = "Authentication token is missing";
+    return;
+  }
+
   try {
     const response = await axios.get(`https://eventful-moments-api.onrender.com/api/v1/moment/${id}`, {
       headers: {
@@ -26,10 +31,10 @@ const fetchMoment = async () => {
     const moment = response.data
 
     // ✅ Ensure correct date format for input[type="date"]
-    date.value = moment.futureDate ? new Date(moment.futureDate).toISOString().split('T')[0] : ''
+    futureDate.value = moment.futureDate ? new Date(moment.futureDate).toISOString().split('T')[0] : ''
 
     title.value = moment.title
-    body.value = moment.details
+    details.value = moment.details
   } catch (err) {
     console.error('Error fetching moment:', err)
     error.value = 'Failed to load moment'
@@ -42,7 +47,7 @@ const updateMoment = async () => {
     await axios.put(
       `https://eventful-moments-api.onrender.com/api/v1/moment/${id}`,
       {
-        futureDate: futureDate.value,
+        futureDate: new Date(futureDate.value).toISOString().split("T")[0],
         title: title.value,
         details: details.value,
       },
@@ -76,7 +81,7 @@ onMounted(fetchMoment)
         <h3 class="textH3">Date in the future</h3>
         <input 
           type="date"
-          v-model="FutureDate"
+          v-model="futureDate"
           class="rounded-2xl w-full border-[#707070] border-2 px-6 py-4"
           required
         />
