@@ -9,7 +9,7 @@ const { token } = useAuth();
 
 const route = useRoute()
 const router = useRouter()
-const id = route.params.id // Get the ID from the route params
+const id = route.params.id 
 const moment = ref(null)
 const error = ref(null)
 const loading = ref(true)
@@ -47,10 +47,10 @@ const deleteItem = async () => {
   try {
     await axios.delete(`https://eventful-moments-api.onrender.com/api/v1/moment/${id}`, {
       headers: {
-        Authorization: `Bearer ${token.value}` // Fix: Include token in DELETE request
+        Authorization: `Bearer ${token.value}` 
       }
     })
-    router.push('/buckets') // Redirect after successful deletion
+    router.push('/buckets') 
   } catch (err) {
     console.error('Error deleting moment:', err)
     error.value = err.response?.data?.message || 'Failed to delete moment'
@@ -98,7 +98,7 @@ onMounted(fetchMoment)
 
     <!-- No Data -->
     <div v-else class="text-center py-8">
-      <p>No moment found</p>
+      <p>No moment Details found</p>
     </div>
   </section>
 </template>

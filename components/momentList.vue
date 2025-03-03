@@ -27,7 +27,7 @@ const fetchMoments = async () => {
   try {
     const response = await axios.get('https://eventful-moments-api.onrender.com/api/v1/moment', {
       headers: {
-        Authorization: `Bearer ${token.value}` // Send token in the headers
+        Authorization: `Bearer ${token.value}` 
       }
     });
     moments.value = response.data.data;
@@ -78,7 +78,7 @@ onMounted(fetchMoments)
       </div>
     </div>
   </div>
-  <div v-else class="text-center py-8">
-      No moments found.
+  <div v-else class="textH2 text-center py-8">
+    No moments found.
   </div>
 </template>

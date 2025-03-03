@@ -3,7 +3,7 @@ import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { VueSpinnerBars } from 'vue3-spinners';
 import axios from 'axios';
-import { useAuth } from '@/composables/useAuth'; // Ensure this exists
+import { useAuth } from '@/composables/useAuth'; 
 
 definePageMeta({
     layout: "custom",
@@ -32,7 +32,7 @@ const handleSignUp = async () => {
             }
         });
 
-        // Axios automatically returns response.data
+
         const { user, token } = response.data;
         setAuth(user, token);
         router.push('/');

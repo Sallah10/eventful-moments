@@ -7,7 +7,7 @@ import { useAuth } from '@/composables/useAuth'
 const route = useRoute()
 const router = useRouter()
 const { token } = useAuth()
-const id = route.params.id // Get moment ID from route
+const id = route.params.id
 
 const futureDate = ref('')
 const title = ref('')
@@ -24,17 +24,16 @@ const fetchMoment = async () => {
   try {
     const response = await axios.get(`https://eventful-moments-api.onrender.com/api/v1/moment/${id}`, {
       headers: {
-        Authorization: `Bearer ${token.value}` // ✅ Added token to GET request
+        Authorization: `Bearer ${token.value}` 
       }
     })
 
     const moment = response.data
 
-    // ✅ Ensure correct date format for input[type="date"]
     futureDate.value = moment.futureDate ? new Date(moment.futureDate).toISOString().split('T')[0] : ''
-
     title.value = moment.title
     details.value = moment.details
+
   } catch (err) {
     console.error('Error fetching moment:', err)
     error.value = 'Failed to load moment'
@@ -44,7 +43,7 @@ const fetchMoment = async () => {
 // Update moment
 const updateMoment = async () => {
   try {
-    await axios.put(
+    await axios.patch(
       `https://eventful-moments-api.onrender.com/api/v1/moment/${id}`,
       {
         futureDate: new Date(futureDate.value).toISOString().split("T")[0],
@@ -54,7 +53,7 @@ const updateMoment = async () => {
       {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token.value}` // ✅ Fixed headers placement
+          Authorization: `Bearer ${token.value}`
         }
       }
     )
@@ -107,9 +106,7 @@ onMounted(fetchMoment)
           required
         ></textarea>
       </div>
-
-      <!-- Submit Button -->
-      <button type="submit" class="button bg-[#06C3B4] text-white px-4 py-2 rounded-lg w-full">
+      <button type="submit" class="button bg-[#06C3B4] text-white">
         Update
       </button>
     </form>

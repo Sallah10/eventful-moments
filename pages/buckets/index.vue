@@ -5,9 +5,10 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAuth } from '@/composables/useAuth';
 
-const { token } = useAuth(); // Get the token from authentication
+const { token } = useAuth(); 
 
 // const { id } = useRoute().params;
+
 const error = ref('');
 const me = ref<{ fullname?: string } | null>(null); // Define `me` as a reactive object
 

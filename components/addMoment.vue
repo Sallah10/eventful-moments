@@ -6,7 +6,7 @@ import { useAuth } from '@/composables/useAuth'
 
 const { token } = useAuth()
 const route = useRoute()
-const id = route.params.id 
+// const id = route.params.id 
 
 const router = useRouter()
 
@@ -54,7 +54,7 @@ const createMoment = async () => {
     );
     
     console.log("API Response:", response.data);
-    const momentId = response.data.data?._id;
+    const momentId = response.data.data._id;
     
     
     if (momentId) {
@@ -66,7 +66,6 @@ const createMoment = async () => {
     }
   }catch (err) {
     console.error("Error creating moment:", err);
-    // More detailed error information
     if (err.response) {
       console.error("Response data:", err.response.data);
       console.error("Response status:", err.response.status);

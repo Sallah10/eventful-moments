@@ -3,7 +3,7 @@ import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { VueSpinnerBars } from 'vue3-spinners';
 import axios from 'axios';
-import { useAuth } from '@/composables/useAuth'; // Ensure this is correctly imported
+import { useAuth } from '@/composables/useAuth'; 
 
 definePageMeta({
     layout: "custom",
