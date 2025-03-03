@@ -75,15 +75,13 @@ onMounted(fetchMoment)
 
     <!-- Display Moment -->
     <div v-else-if="moment">
-     <div class="card">
         <h1 class="text-2xl font-bold md:textH1">{{ moment.title }}</h1>
         <h3 class="textH3 text-[#5271FF]">
           {{ moment.createdAt ? new Date(moment.createdAt).toLocaleDateString() : 'Date not available' }}
         </h3>
-        <p class="textP mt-4">
+        <p class="textP">
           {{ moment.details }}
         </p>
-     </div>
 
       <!-- Action Buttons -->
       <div class="flex gap-4 flex-col md:flex-row md:justify-between mt-6">

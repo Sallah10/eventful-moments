@@ -59,21 +59,23 @@ onMounted(fetchMoments)
 
 <template>
   <div v-if="LoadedMoments.length">
-    <div v-for="moment in moments" :key="moment._id" class="card hover:bg-[#FFF5A7] self-center mx-auto">
-      <h2 class="text-lg md:textH2 font-bold">
-        {{ moment.title }}
-      </h2>
-      <p class="textP">
-        {{ moment.details }}
-      </p>
-      <div class="flex justify-between">
-        <NuxtLink :to="'/buckets/' + moment._id" class="text-[#5271FF] hover:text-[#008289]">
-          View Details
-        </NuxtLink>
-        <div class="md:flex gap-4">
-          <h3 class="textH3 text-[#B2B2B2]">{{ moment.createdAt }}</h3>
-          <!-- new Date(moment.createdAt).toLocaleDateString() -->
-          <h3 class="textH3">{{ moment.updatedAt }}</h3>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4">
+      <div v-for="moment in moments" :key="moment._id" class="card hover:bg-[#FFF5A7] self-center mx-auto">
+        <h2 class="text-lg md:textH2 font-bold">
+          {{ moment.title }}
+        </h2>
+        <p class="textP">
+          {{ moment.details }}
+        </p>
+        <div class="flex justify-between">
+          <NuxtLink :to="'/buckets/' + moment._id" class="text-[#5271FF] hover:text-[#008289]">
+            View Details
+          </NuxtLink>
+          <div class="md:flex gap-4">
+            <h3 class="textH3 text-[#B2B2B2]">{{ moment.createdAt }}</h3>
+            <!-- new Date(moment.createdAt).toLocaleDateString() -->
+            <h3 class="textH3">{{ moment.updatedAt }}</h3>
+          </div>
         </div>
       </div>
     </div>
