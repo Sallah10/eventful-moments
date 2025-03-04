@@ -10,9 +10,9 @@ const { token } = useAuth();
 // const { id } = useRoute().params;
 
 const error = ref('');
-const me = ref<{ fullname?: string } | null>(null); // Define `me` as a reactive object
+const me = ref<{ fullname?: string } | null>(null);
 
-const momentListRef = ref(null);
+const momentListRef = ref<InstanceType<typeof MomentList> | null>(null);
 const displayLimit = ref(5);
 const hasMore = ref(true);
 
@@ -39,7 +39,7 @@ const fetchMoment = async () => {
       }
     });
 
-    me.value = response.data; 
+    me.value = response.data.data; 
   } catch (err: any) {
     error.value = err.response?.data?.message || 'Failed to load moment';
   }
