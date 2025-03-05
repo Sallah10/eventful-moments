@@ -74,17 +74,17 @@ onMounted(fetchMoment)
     </div>
 
     <!-- Display Moment -->
-    <div v-else-if="moment">
+    <div v-else-if="moment" class="flex flex-col py-4 px-6 gap-4  md:max-w-[638px] md:self-center mt-4">
         <h1 class="text-2xl font-bold md:textH1">{{ moment.title }}</h1>
         <h3 class="textH3 text-[#5271FF]">
           {{ moment.createdAt ? new Date(moment.createdAt).toLocaleDateString() : 'Date not available' }}
         </h3>
-        <p class="textP">
+        <p class="textP mt-4">
           {{ moment.details }}
         </p>
 
       <!-- Action Buttons -->
-      <div class="flex gap-4 flex-col md:flex-row md:justify-between mt-6">
+      <div class="flex gap-4 flex-col md:flex-row  mt-6">
         <NuxtLink :to="`/buckets/${id}/editItem`" class="button bg-[#06C3B4] px-4 py-2 text-white rounded text-center">
           Edit
         </NuxtLink>

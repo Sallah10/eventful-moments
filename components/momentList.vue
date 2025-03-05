@@ -2,6 +2,10 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useAuth } from '@/composables/useAuth'
+import { useRoute, useRouter } from 'vue-router'
+
+const route = useRoute()
+const router = useRouter()
 
 interface Moment {
   _id: string;
@@ -72,7 +76,16 @@ const loadMore = () => {
 // Expose loadMore method to parent component
 defineExpose({ loadMore, fetchMoments  });
 
-onMounted(fetchMoments);
+onMounted(() => {
+  fetchMoments() // Load user
+  if (route.query.added) {
+    setTimeout(() => {
+      fetchMoments();
+      router.replace({ path: route.path }); // Properly remove the query param
+    }, 500);
+  }
+})
+
 </script>
 
 <template>

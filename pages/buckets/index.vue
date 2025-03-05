@@ -62,14 +62,17 @@ const fetchMoment = async () => {
 onMounted(() => {
   fetchMoment() // Load user
   if (route.query.added) {
-    momentListRef.value?.fetchMoments()// Refresh the moments list if a new moment was added
-    router.replace({ query: {} }) // Remove query param after refreshing
-  }
+  setTimeout(() => {
+    momentListRef.value?.fetchMoments();
+    router.replace({ path: route.path }); // Properly remove the query param
+  }, 500);
+}
+
 })
 
-function refreshMoments() {
-  throw new Error('Function not implemented.')
-}
+// function refreshMoments() {
+//   throw new Error('Function not implemented.')
+// }
 </script>
 
 <template>

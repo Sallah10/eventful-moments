@@ -83,7 +83,7 @@ const createMoment = async () => {
 </script>
 
 <template>
-  <section class="section h-[100%]">
+  <section class="section h-[100vh]">
     <form @submit.prevent="createMoment" class="form lg:w-[638px] lg:self-center">
       <div class="gap-2 flex flex-col">
         <h3 class="textH3">Date in the future</h3>
