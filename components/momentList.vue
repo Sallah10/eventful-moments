@@ -70,7 +70,7 @@ const loadMore = () => {
 };
 
 // Expose loadMore method to parent component
-defineExpose({ loadMore });
+defineExpose({ loadMore, fetchMoments  });
 
 onMounted(fetchMoments);
 </script>

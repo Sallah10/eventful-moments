@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import { useAuth } from '@/composables/useAuth'
+// const emit = defineEmits(['momentAdded'])
 
 const route = useRoute()
 const router = useRouter()
@@ -61,8 +62,9 @@ const updateMoment = async () => {
         }
       }
     )
-
-    router.push(`/buckets/${id}`)
+    //  emit('momentAdded')
+    router.push({ path: `/buckets/${id}`, query: { added: 'true' } });
+    // router.push(`/buckets/${id}`)
   } catch (err) {
     console.error('Error updating moment:', err)
     error.value = 'Failed to update moment'

@@ -3,17 +3,17 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import { useAuth } from '@/composables/useAuth'
-
 const { token } = useAuth()
 const route = useRoute()
 // const id = route.params.id 
-
 const router = useRouter()
-
 const title = ref('')
 const details = ref('')
 const futureDate = ref('')
 const error = ref(null)
+// const emit = defineEmits(['momentAdded'])
+
+
 
 const createMoment = async () => {
   try {
@@ -55,10 +55,11 @@ const createMoment = async () => {
     
     console.log("API Response:", response.data);
     const momentId = response.data.data._id;
-    
+    // emit('momentAdded')
     
     if (momentId) {
-      router.push(`/buckets/${momentId}`);
+      router.push({ path: `/buckets/${momentId}`, query: { added: 'true' } });
+      // router.push(`/buckets/${momentId}`);
     } else {
       console.error("Could not find moment ID in response");
       error.value = "Created moment but couldn't navigate to details view";

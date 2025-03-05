@@ -50,9 +50,26 @@ const fetchMoment = async () => {
   } catch (err: any) {
     error.value = err.response?.data?.message || 'Failed to load moment'
   }
+  // finally {
+  //    // Option 2: Refresh the MomentList component to include the new moment
+  //   if (momentListRef.value) {
+  //     await momentListRef.value.fetchMoments();
+  //   }
+  // }
 }
 
-onMounted(fetchMoment)
+
+onMounted(() => {
+  fetchMoment() // Load user
+  if (route.query.added) {
+    momentListRef.value?.fetchMoments()// Refresh the moments list if a new moment was added
+    router.replace({ query: {} }) // Remove query param after refreshing
+  }
+})
+
+function refreshMoments() {
+  throw new Error('Function not implemented.')
+}
 </script>
 
 <template>
@@ -64,7 +81,7 @@ onMounted(fetchMoment)
         <h1 v-if="error" class="texterror">{{ error }}</h1>
         <p class="textP">Here are items in your eventful moment bucket.</p>
       </div>
-      <NuxtLink to="/buckets/addItem" class="button">Add Item</NuxtLink>
+      <NuxtLink  to="/buckets/addItem" class="button">Add Item</NuxtLink>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4">  
       <MomentList 
