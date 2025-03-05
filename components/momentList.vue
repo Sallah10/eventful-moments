@@ -1,23 +1,33 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import { useAuth } from '@/composables/useAuth';
+import { useAuth } from '@/composables/useAuth'
+
+interface Moment {
+  _id: string;
+  title: string;
+  details: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 const { token } = useAuth();
 
 const props = defineProps({
   limit: {
     type: Number,
-    default: 5
+    required: true
   }
 });
 
-// Define an event to notify parent when user wants more items
+// Emit event to parent when there are no more items to load
 const emit = defineEmits(['loadMore']);
 
-const moments = ref([])
-const LoadedMoments = ref([])
-const error = ref(null)
+// allMoments holds the full list of moments fetched from the API
+const allMoments = ref<Moment[]>([]);
+// displayedMoments holds the subset currently displayed
+const displayedMoments = ref<Moment[]>([]);
+const error = ref<string | null>(null);
 
 const fetchMoments = async () => {
   if (!token.value) {
@@ -27,26 +37,34 @@ const fetchMoments = async () => {
   try {
     const response = await axios.get('https://eventful-moments-api.onrender.com/api/v1/moment', {
       headers: {
-        Authorization: `Bearer ${token.value}` 
+        Authorization: `Bearer ${token.value}`
       }
     });
-    moments.value = response.data.data;
-
-    LoadedMoments.value = moments.value.slice(0, props.limit);
-  } catch (err) {
-    error.value = 'Failed to load moments'
-  }
-}
-
-// Method to handle loading more when called from parent
-const loadMore = () => {
-  if (moments.value.length < allMoments.value.length) {
-    const newLimit = moments.value.length + 5;
-    moments.value = moments.value.slice(0, newLimit);
     
-    // If we've shown all moments now, notify parent
-    if (LoadedMoments.value.length >= moments.value.length) {
+    // Filter out moments that are "empty" (for example, with no title)
+    const data = response.data.data;
+    allMoments.value = Array.isArray(data)
+      ? data.filter((moment: any) => moment.title && moment.title.trim() !== '')
+      : [];
+
+    displayedMoments.value = allMoments.value.slice(0, props.limit);
+  } catch (err) {
+    error.value = 'Failed to load moments';
+  }
+};
+
+// Method to load more items when triggered
+const loadMore = () => {
+  const currentLength = displayedMoments.value.length;
+  if (currentLength < allMoments.value.length) {
+    const newLimit = currentLength + 5;
+    displayedMoments.value = allMoments.value.slice(0, newLimit);
+    
+    // If we've loaded all items, notify the parent
+    if (displayedMoments.value.length >= allMoments.value.length) {
       emit('loadMore', false); // No more to load
+    } else {
+      emit('loadMore', true);
     }
   }
 };
@@ -54,33 +72,40 @@ const loadMore = () => {
 // Expose loadMore method to parent component
 defineExpose({ loadMore });
 
-onMounted(fetchMoments)
+onMounted(fetchMoments);
 </script>
 
 <template>
-  <div v-if="LoadedMoments.length">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4">
-      <div v-for="moment in moments" :key="moment._id" class="card hover:bg-[#FFF5A7] self-center mx-auto">
-        <h2 class="text-lg md:textH2 font-bold">
-          {{ moment.title }}
-        </h2>
-        <p class="textP">
-          {{ moment.details }}
-        </p>
-        <div class="flex justify-between">
-          <NuxtLink :to="'/buckets/' + moment._id" class="text-[#5271FF] hover:text-[#008289]">
-            View Details
-          </NuxtLink>
-          <div class="md:flex gap-4">
-            <h3 class="textH3 text-[#B2B2B2]">{{ moment.createdAt }}</h3>
-            <!-- new Date(moment.createdAt).toLocaleDateString() -->
-            <h3 class="textH3">{{ moment.updatedAt }}</h3>
+  <div>
+    <div v-if="error" class="textH2 text-center py-8">
+      <p>{{ error }}</p>
+    </div>
+    <div v-else-if="displayedMoments.length">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4">
+        <div v-for="moment in displayedMoments" :key="moment._id" class="card hover:bg-[#FFF5A7] self-center mx-auto">
+          <h2 class="text-lg md:textH2 font-bold">
+            {{ moment.title }}
+          </h2>
+          <p class="textP">
+            {{ moment.details }}
+          </p>
+          <div class="flex justify-between">
+            <NuxtLink :to="'/buckets/' + moment._id" class="text-[#5271FF] hover:text-[#008289]">
+              View Details
+            </NuxtLink>
+            <div class="md:flex gap-4">
+              <h3 class="textH3 text-[#B2B2B2]">{{ moment.createdAt }}</h3>
+              <h3 class="textH3">{{ moment.updatedAt }}</h3>
+            </div>
           </div>
         </div>
       </div>
+      <button class="button" v-if="displayedMoments.length < allMoments.length" @click="loadMore">
+        Load More
+      </button>
     </div>
-  </div>
-  <div v-else class="textH2 text-center py-8">
-    No moments found.
+    <div v-else class="textH2 text-center py-8">
+      <p>No moments found.</p>
+    </div>
   </div>
 </template>

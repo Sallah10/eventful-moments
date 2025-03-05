@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
@@ -12,7 +12,7 @@ const id = route.params.id
 const futureDate = ref('')
 const title = ref('')
 const details = ref('')
-const error = ref(null)
+const error = ref<string | null>(null)
 
 // Fetch existing moment data
 const fetchMoment = async () => {
@@ -28,11 +28,15 @@ const fetchMoment = async () => {
       }
     })
 
-    const moment = response.data
+    // Log response to see its structure
+    console.log("Fetched moment response:", response.data)
 
-    futureDate.value = moment.futureDate ? new Date(moment.futureDate).toISOString().split('T')[0] : ''
-    title.value = moment.title
-    details.value = moment.details
+    // If the API returns the moment wrapped in a "data" property, update accordingly:
+    const momentData = response.data.data || response.data;
+    
+    futureDate.value = momentData.futureDate ? new Date(momentData.futureDate).toISOString().split('T')[0] : ''
+    title.value = momentData.title
+    details.value = momentData.details
 
   } catch (err) {
     console.error('Error fetching moment:', err)
