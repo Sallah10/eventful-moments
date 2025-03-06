@@ -9,7 +9,6 @@ const route = useRoute()
 const router = useRouter()
 const { token } = useAuth()
 
-// We're expecting a single user object after extraction.
 const error = ref('')
 const me = ref<{ fullname?: string } | null>(null)
 
@@ -50,29 +49,21 @@ const fetchMoment = async () => {
   } catch (err: any) {
     error.value = err.response?.data?.message || 'Failed to load moment'
   }
-  // finally {
-  //    // Option 2: Refresh the MomentList component to include the new moment
-  //   if (momentListRef.value) {
-  //     await momentListRef.value.fetchMoments();
-  //   }
-  // }
 }
 
 
-onMounted(() => {
-  fetchMoment() // Load user
-  if (route.query.added) {
-  setTimeout(() => {
-    momentListRef.value?.fetchMoments();
-    router.replace({ path: route.path }); // Properly remove the query param
-  }, 500);
-}
-
-})
-
-// function refreshMoments() {
-//   throw new Error('Function not implemented.')
+// onMounted(() => {
+//   fetchMoment() // Load user
+//   if (route.query.added) {
+//   setTimeout(() => {
+//     momentListRef.value?.fetchMoments();
+//     router.replace({ path: route.path }); // Properly remove the query param
+//   }, 500);
 // }
+
+// })
+onMounted(fetchMoment())
+
 </script>
 
 <template>

@@ -11,7 +11,6 @@ const title = ref('')
 const details = ref('')
 const futureDate = ref('')
 const error = ref(null)
-// const emit = defineEmits(['momentAdded'])
 
 
 

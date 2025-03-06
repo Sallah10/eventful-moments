@@ -29,6 +29,7 @@ const emit = defineEmits(['loadMore']);
 
 // allMoments holds the full list of moments fetched from the API
 const allMoments = ref<Moment[]>([]);
+
 // displayedMoments holds the subset currently displayed
 const displayedMoments = ref<Moment[]>([]);
 const error = ref<string | null>(null);
@@ -57,7 +58,6 @@ const fetchMoments = async () => {
   }
 };
 
-// Method to load more items when triggered
 const loadMore = () => {
   const currentLength = displayedMoments.value.length;
   if (currentLength < allMoments.value.length) {
@@ -73,11 +73,10 @@ const loadMore = () => {
   }
 };
 
-// Expose loadMore method to parent component
 defineExpose({ loadMore, fetchMoments  });
 
 onMounted(() => {
-  fetchMoments() // Load user
+  fetchMoments() 
   if (route.query.added) {
     setTimeout(() => {
       fetchMoments();
