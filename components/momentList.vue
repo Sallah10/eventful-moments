@@ -80,7 +80,7 @@ onMounted(() => {
   if (route.query.added) {
     setTimeout(() => {
       fetchMoments();
-      router.replace({ path: route.path }); // Properly remove the query param
+      router.replace({ path: route.path });
     }, 500);
   }
 })
@@ -88,7 +88,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <div class="section">
     <div v-if="error" class="textH2 text-center py-8">
       <p>{{ error }}</p>
     </div>

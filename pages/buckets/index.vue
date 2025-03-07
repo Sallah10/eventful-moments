@@ -70,7 +70,6 @@ onMounted(fetchMoment())
   <section class="section h-[100vh]">
     <div class="flex justify-between gap-6 flex-col md:flex-row">
       <div v-if="me" class="flex flex-col gap-4">
-        <!-- Accessing fullname of the single user object -->
         <h1 class="text-2xl md:textH1 font-bold">Welcome {{ me.fullname }}</h1>
         <h1 v-if="error" class="texterror">{{ error }}</h1>
         <p class="textP">Here are items in your eventful moment bucket.</p>
