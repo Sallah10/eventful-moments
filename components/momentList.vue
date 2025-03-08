@@ -24,13 +24,12 @@ const props = defineProps({
   }
 });
 
-// Emit event to parent when there are no more items to load
+
 const emit = defineEmits(['loadMore']);
 
-// allMoments holds the full list of moments fetched from the API
+
 const allMoments = ref<Moment[]>([]);
 
-// displayedMoments holds the subset currently displayed
 const displayedMoments = ref<Moment[]>([]);
 const error = ref<string | null>(null);
 
@@ -46,7 +45,6 @@ const fetchMoments = async () => {
       }
     });
     
-    // Filter out moments that are "empty" (for example, with no title)
     const data = response.data.data;
     allMoments.value = Array.isArray(data)
       ? data.filter((moment: any) => moment.title && moment.title.trim() !== '')

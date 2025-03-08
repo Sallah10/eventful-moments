@@ -94,7 +94,7 @@ onMounted(fetchMoment)
       </div>
     </div>
 
-    <!-- No Data -->
+    <!-- if No Data -->
     <div v-else class="text-center py-8">
       <p>No moment Details found</p>
     </div>
