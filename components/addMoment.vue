@@ -13,6 +13,7 @@ const futureDate = ref('')
 const error = ref(null)
 
 
+const emit = defineEmits(['momentAdded']);
 
 const createMoment = async () => {
   try {
@@ -54,7 +55,7 @@ const createMoment = async () => {
     
     console.log("API Response:", response.data);
     const momentId = response.data.data._id;
-    // emit('momentAdded')
+    emit('momentAdded')
     
     if (momentId) {
       router.push({ path: `/buckets/${momentId}`, query: { added: 'true' } });
