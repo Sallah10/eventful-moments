@@ -13,9 +13,9 @@ body {
 }
 
 @layer components {
-  /* mx-auto */
+  /* mx-auto h-[100vh] lg:h-[100%]*/
   .section {
-    @apply text-black flex flex-col gap-6 px-10 py-6 md:gap-6 h-[100vh] lg:h-[100%];
+    @apply text-black flex flex-col gap-6 px-10 py-6 md:gap-6;
   }
   /* 0px 3px 6px #00000029 shadow-2xl shadow-[#00000029]*/
   .card {
