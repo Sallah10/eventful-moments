@@ -111,6 +111,9 @@ const createMoment = async () => {
           required 
         ></textarea>
       </div>
+      <div v-if="error" class="text-red-600 text-center mt-4">
+        <p>{{ error }}</p>  
+      </div>
       <div class="flex gap-4 mt-4 flex-col md:flex-row mb-6 self-center">
         <button type="submit" class="button">Save</button>
         <NuxtLink to="/buckets" class="button bg-red-600">Cancel</NuxtLink>

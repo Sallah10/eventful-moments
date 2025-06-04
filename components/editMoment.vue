@@ -112,6 +112,15 @@ onMounted(fetchMoment)
           required
         ></textarea>
       </div>
+      <!-- Error Message -->
+      <div v-if="error" class="texterror mb-4">
+        <p>{{ error }}</p>  
+      </div>
+      <!-- Success Message -->
+      <div v-if="!error" class="text-green-600 mb-4">
+        <p>Moment updated successfully!</p>
+      </div>
+      <!-- Submit Button -->
       <button type="submit" class="button bg-[#06C3B4] text-white self-center">
         Update
       </button>
