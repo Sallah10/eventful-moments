@@ -83,7 +83,7 @@ const createMoment = async () => {
 </script>
 
 <template>
-  <section class="section h-[100vh] flex flex-col items-center justify-center">
+  <section class="section h-[100%]">
     <form @submit.prevent="createMoment" class="form lg:w-[638px] lg:self-center">
       <div class="gap-2 flex flex-col">
         <h3 class="textH3">Date in the future</h3>
@@ -111,9 +111,9 @@ const createMoment = async () => {
           required 
         ></textarea>
       </div>
-      <div class="flex gap-4 mt-4 flex-col md:flex-row">
+      <div class="flex gap-4 mt-4 flex-col md:flex-row mb-6 self-center">
         <button type="submit" class="button">Save</button>
-      <NuxtLink to="/buckets" class="button bg-red-600">Cancel</NuxtLink>
+        <NuxtLink to="/buckets" class="button bg-red-600">Cancel</NuxtLink>
       </div>
     </form>
   </section>

@@ -75,7 +75,7 @@ onMounted(fetchMoment)
 </script>
 
 <template>
-  <section class="section h-[100%] p-4 flex flex-col items-center justify-center">
+  <section class="section h-[100%]">
     <div v-if="error" class="texterror">
       <p>{{ error }}</p>
     </div>
@@ -112,7 +112,7 @@ onMounted(fetchMoment)
           required
         ></textarea>
       </div>
-      <button type="submit" class="button bg-[#06C3B4] text-white">
+      <button type="submit" class="button bg-[#06C3B4] text-white self-center">
         Update
       </button>
     </form>
