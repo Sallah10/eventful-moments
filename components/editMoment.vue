@@ -75,7 +75,7 @@ onMounted(fetchMoment)
 </script>
 
 <template>
-  <section class="section h-[100%] p-4">
+  <section class="section h-[100%] p-4 flex flex-col items-center justify-center">
     <div v-if="error" class="texterror">
       <p>{{ error }}</p>
     </div>
