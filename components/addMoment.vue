@@ -58,7 +58,7 @@ const createMoment = async () => {
     emit('momentAdded')
     
     if (momentId) {
-      router.push({ path: `/buckets/${momentId}`, query: { added: 'true' } });
+      router.push({ path: `/buckets`, query: { added: 'true' } });
       // router.push(`/buckets/${momentId}`);
     } else {
       console.error("Could not find moment ID in response");
@@ -83,7 +83,7 @@ const createMoment = async () => {
 </script>
 
 <template>
-  <section class="section h-[100vh]">
+  <section class="section h-[100vh] flex flex-col items-center justify-center">
     <form @submit.prevent="createMoment" class="form lg:w-[638px] lg:self-center">
       <div class="gap-2 flex flex-col">
         <h3 class="textH3">Date in the future</h3>
@@ -111,8 +111,10 @@ const createMoment = async () => {
           required 
         ></textarea>
       </div>
-      <button type="submit" class="button">Save</button>
+      <div class="flex gap-4 mt-4 flex-col md:flex-row">
+        <button type="submit" class="button">Save</button>
       <NuxtLink to="/buckets" class="button bg-red-600">Cancel</NuxtLink>
+      </div>
     </form>
   </section>
 </template>

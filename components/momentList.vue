@@ -84,10 +84,12 @@ onMounted(fetchMoments);
 // Watch for route changes
 watch(
   () => route.query,
-  (newQuery) => {
+  async (newQuery) => {
     if (newQuery.added) {
-      fetchMoments();
-      router.replace({ path: route.path });
+      await fetchMoments();
+  setTimeout(() => {
+    router.replace({ path: route.path });
+  }, 500);
     }
   },
   { immediate: true }
