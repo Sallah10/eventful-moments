@@ -1,75 +1,36 @@
-# Nuxt Minimal Starter
+---
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## **. Eventful Moments (CRUD with API)**  
+🔗 [Repository Link](https://github.com/Sallah10/eventful-moments)  
 
-## Setup
+# Eventful Moments  
 
-Make sure to install dependencies:
+A simple CRUD app for creating and managing memorable moments, powered by a REST API.  
+
+![eventful](https://github.com/user-attachments/assets/924828ef-19b9-459b-8ae2-f7e7c573bd11)
+
+## ✨ Features  
+- **Create Moments** – Add events with titles, descriptions, and dates.  
+- **Edit & Delete** – Update or remove moments dynamically.  
+- **API-Powered** – Fetch/save data to a backend (e.g., Firebase, Node.js).  
+- **Responsive UI** – Works on all devices.  
+
+## 🛠️ Tech Stack  
+- **Frontend**:  NUXT.js
+- **State Management**: Context API (React) / Pinia (Vue)  
+- **Styling**: CSS Modules / Tailwind  
+- **Backend**: Firebase
+  
+## 🚀 Quick Start  
+1. Clone the repo:  
+   ```bash
+   git clone https://github.com/Sallah10/eventful-moments.git
+   cd eventful-moments
+Install dependencies:
 
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
+Start the app:
+````
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+npm start
